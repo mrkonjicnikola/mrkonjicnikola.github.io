@@ -1,3 +1,92 @@
+// Preview carousel media — drop files into assets/images/projects/<key>-preview/ and list filenames here
+const PREVIEW_MEDIA = {
+    'expo-vr': [
+        '0.mp4',
+        '1.mp4',
+        '2.mp4',
+        '3.mp4',
+    ],
+    'ar-quiz': [
+        '0.png',
+        '1.png',
+        '2.png',
+        '3.png',
+        '4.png',
+        '5.png',
+    ],
+}
+
+let _previewProject = null
+let _previewIndex = 0
+
+function openPreview(project) {
+    _previewProject = project
+    _previewIndex = 0
+    _renderPreview()
+    document.getElementById('preview-modal').classList.add('open')
+    document.addEventListener('keydown', _onPreviewKey)
+}
+
+function closePreview() {
+    const video = document.querySelector('#preview-media-wrapper video')
+    if (video) video.pause()
+    document.getElementById('preview-modal').classList.remove('open')
+    document.removeEventListener('keydown', _onPreviewKey)
+}
+
+function closePreviewIfOverlay(e) {
+    if (e.target === document.getElementById('preview-modal')) closePreview()
+}
+
+function prevPreview() {
+    const items = PREVIEW_MEDIA[_previewProject]
+    _previewIndex = (_previewIndex - 1 + items.length) % items.length
+    _renderPreview()
+}
+
+function nextPreview() {
+    const items = PREVIEW_MEDIA[_previewProject]
+    _previewIndex = (_previewIndex + 1) % items.length
+    _renderPreview()
+}
+
+function _onPreviewKey(e) {
+    if (e.key === 'Escape') closePreview()
+    else if (e.key === 'ArrowLeft') prevPreview()
+    else if (e.key === 'ArrowRight') nextPreview()
+}
+
+function _renderPreview() {
+    const items = PREVIEW_MEDIA[_previewProject]
+    const wrapper = document.getElementById('preview-media-wrapper')
+    const counter = document.getElementById('preview-counter')
+    const controls = document.querySelector('.preview-controls')
+    const navBtns = document.querySelectorAll('.preview-nav-btn')
+
+    const prevVideo = wrapper.querySelector('video')
+    if (prevVideo) prevVideo.pause()
+
+    if (!items || items.length === 0) {
+        wrapper.innerHTML = '<p class="preview-empty">No previews yet.</p>'
+        counter.textContent = ''
+        controls.style.display = 'none'
+        return
+    }
+
+    const filename = items[_previewIndex]
+    const src = `./assets/images/projects/${_previewProject}-preview/${filename}`
+    const ext = filename.split('.').pop().toLowerCase()
+    const isVideo = ['mp4', 'webm', 'mov'].includes(ext)
+
+    wrapper.innerHTML = isVideo
+        ? `<video controls autoplay loop src="${src}"></video>`
+        : `<img src="${src}" alt="Preview ${_previewIndex + 1}" />`
+
+    counter.textContent = `${_previewIndex + 1} / ${items.length}`
+    controls.style.display = 'flex'
+    navBtns.forEach(b => b.style.display = items.length <= 1 ? 'none' : 'flex')
+}
+
 // initialization
 
 const RESPONSIVE_WIDTH = 1024

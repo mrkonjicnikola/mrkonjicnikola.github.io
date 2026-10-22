@@ -281,6 +281,14 @@
                             Multiple VR applications I developed independently
                             for the pharmaceutical company Stada.
                         </p>
+                        <a
+                            href="#"
+                            onclick="openPreview('expo-vr'); return false;"
+                            class="tw-mt-4"
+                        >
+                            <span>See preview</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -309,6 +317,14 @@
                             Augmented reality quiz app for training
                             pharmaceutical sales representatives for Eucerin.
                         </p>
+                        <a
+                            href="#"
+                            onclick="openPreview('ar-quiz'); return false;"
+                            class="tw-mt-4"
+                        >
+                            <span>See preview</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -634,6 +650,25 @@
                 </a>
             </div>
         </footer>
+
+        <!-- Preview carousel modal -->
+        <div id="preview-modal" onclick="closePreviewIfOverlay(event)">
+            <div class="preview-container">
+                <button class="preview-close" onclick="closePreview()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+                <div id="preview-media-wrapper"></div>
+                <div class="preview-controls">
+                    <button class="preview-nav-btn" onclick="prevPreview()">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <span id="preview-counter"></span>
+                    <button class="preview-nav-btn" onclick="nextPreview()">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </body>
 
     <script
