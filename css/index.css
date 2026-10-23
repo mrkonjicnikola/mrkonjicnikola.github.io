@@ -204,6 +204,11 @@ header > .collapsible-header{
 
 }
 
+a:hover .hero-cta-circle {
+    background-color: #fff;
+    color: #000;
+}
+
 /* Preview modal */
 #preview-modal {
     display: none;
